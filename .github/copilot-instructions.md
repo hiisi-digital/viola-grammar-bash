@@ -2,6 +2,41 @@
 
 Bash/Shell script grammar package for the Viola convention linter. Runtime: Deno (TypeScript).
 
+## CRITICAL: Accessing @hiisi/viola Core Package
+
+The `@hiisi/viola` package contains all the types and utilities you need. It is NOT yet published to JSR, so you MUST access it via GitHub.
+
+### Option 1: Use Git Import in deno.json (RECOMMENDED)
+
+Update `deno.json` imports to use GitHub raw URL:
+
+```json
+{
+  "imports": {
+    "@hiisi/viola": "https://raw.githubusercontent.com/hiisi-digital/viola/main/mod.ts",
+    "@hiisi/viola/grammars": "https://raw.githubusercontent.com/hiisi-digital/viola/main/src/grammars/mod.ts"
+  }
+}
+```
+
+### Option 2: Use GitHub MCP Server to Read Types
+
+You have access to the GitHub MCP server. Use it to read the viola core types:
+
+1. **Read grammar types**: Use `get_file_contents` on `hiisi-digital/viola` repo, path `src/grammars/types.ts`
+2. **Read extractor**: Path `src/grammars/extractor.ts`
+3. **Read query utilities**: Path `src/grammars/query.ts`
+
+Key files in the viola core repo (`hiisi-digital/viola`):
+- `src/grammars/types.ts` - GrammarDefinition, GrammarMeta, ExtractionQueries, GrammarTransforms
+- `src/grammars/mod.ts` - All grammar exports
+- `src/data/types.ts` - FunctionInfo, ImportInfo, ExportInfo, TypeInfo, etc.
+- `DESIGN-LANGUAGE-AGNOSTIC.md` - Full architecture documentation
+
+### DO NOT create stub types
+
+Do NOT create your own stub types for GrammarDefinition, etc. The real types exist in the viola repo - use the GitHub MCP server to read them, then use git imports.
+
 ## Before Starting Work
 
 - **Check current branch**: If not main, you're likely working on a PR
@@ -298,9 +333,23 @@ Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `perf`
 
 Only these dependencies should be used:
 
-- `@hiisi/viola/grammars` - Type definitions
+- `@hiisi/viola` - Core package (via GitHub raw URL until JSR published)
+- `@hiisi/viola/grammars` - Type definitions (via GitHub raw URL)
 - `@std/assert` - Testing
-- `tree-sitter-bash` - Grammar (npm, WASM)
+- `web-tree-sitter` - Tree-sitter runtime (npm)
+- `tree-sitter-bash` - Grammar WASM (npm or URL)
+
+**Import pattern in deno.json:**
+```json
+{
+  "imports": {
+    "@hiisi/viola": "https://raw.githubusercontent.com/hiisi-digital/viola/main/mod.ts",
+    "@hiisi/viola/grammars": "https://raw.githubusercontent.com/hiisi-digital/viola/main/src/grammars/mod.ts",
+    "@std/assert": "jsr:@std/assert@^1",
+    "web-tree-sitter": "npm:web-tree-sitter@0.22.6"
+  }
+}
+```
 
 Do not add new dependencies without explicit approval.
 
