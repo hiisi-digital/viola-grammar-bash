@@ -8,6 +8,7 @@
 
 import { assertEquals, assert } from "./assert.ts";
 import { bash } from "../mod.ts";
+import type { SyntaxNode, QueryCaptures } from "../src/viola-types.ts";
 
 Deno.test("Grammar integration - exports complete definition", () => {
   // Verify meta is complete
@@ -60,13 +61,25 @@ Deno.test("Grammar integration - queries are valid S-expressions", () => {
 
 Deno.test("Grammar integration - transform functions are callable", () => {
   // Create mock nodes for testing
-  const mockNode = {
+  const mockNode: SyntaxNode = {
     type: "compound_statement",
+    text: "{ echo $1 }",
+    startPosition: { row: 0, column: 0 },
+    endPosition: { row: 0, column: 10 },
     startIndex: 0,
     endIndex: 10,
+    parent: null,
     children: [],
     namedChildren: [],
-    text: "test",
+    childForFieldName: () => null,
+    hasError: false,
+    isMissing: false,
+  };
+  
+  const mockCaptures: QueryCaptures = {
+    get: (name: string) => name === "function.name" ? { node: mockNode, text: "test" } : undefined,
+    has: () => false,
+    all: () => new Map(),
   };
   
   // Verify transforms can be called
@@ -75,15 +88,15 @@ Deno.test("Grammar integration - transform functions are callable", () => {
   assert(Array.isArray(params));
   
   assert(bash.transforms?.normalizeBody);
-  const body = bash.transforms.normalizeBody(mockNode, "  test  ");
+  const body = bash.transforms.normalizeBody("  test  ", "bash");
   assertEquals(typeof body, "string");
   
   assert(bash.transforms?.isExported);
-  const exported = bash.transforms.isExported("test", "export -f test");
+  const exported = bash.transforms.isExported(mockNode, mockCaptures);
   assertEquals(typeof exported, "boolean");
   
   assert(bash.transforms?.parseImport);
-  const importPath = bash.transforms.parseImport(mockNode, "source ./test.sh");
+  const importPath = bash.transforms.parseImport(mockNode, mockCaptures, "source ./test.sh");
   assertEquals(typeof importPath === "string" || importPath === undefined, true);
   
   assert(bash.transforms?.parseDocComment);

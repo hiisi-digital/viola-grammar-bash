@@ -22,11 +22,11 @@ export type {
   GrammarDefinition,
   GrammarMeta,
   GrammarSource,
-  GrammarQueries,
+  ExtractionQueries,
   GrammarTransforms,
-  FunctionParam,
   SyntaxNode,
-} from "./src/types.ts";
+} from "./src/viola-types.ts";
+export type { FunctionParam } from "./src/viola-types.ts";
 
 // Re-export as default for convenience
 export { bash as default } from "./src/grammar.ts";

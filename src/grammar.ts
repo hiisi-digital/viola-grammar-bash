@@ -6,7 +6,7 @@
  * @module
  */
 
-import type { GrammarDefinition } from "./types.ts";
+import type { GrammarDefinition } from "./viola-types.ts";
 import { functionsQuery } from "./queries/functions.ts";
 import { stringsQuery } from "./queries/strings.ts";
 import { importsQuery } from "./queries/imports.ts";

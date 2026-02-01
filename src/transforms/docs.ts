@@ -7,7 +7,7 @@
  * @module
  */
 
-import type { SyntaxNode } from "../types.ts";
+import type { SyntaxNode } from "../viola-types.ts";
 
 /**
  * Parse a documentation comment.

@@ -13,7 +13,7 @@
  * @module
  */
 
-import type { SyntaxNode } from "../types.ts";
+import type { SyntaxNode, QueryCaptures } from "../viola-types.ts";
 
 /**
  * Parse an import/source statement to extract the file path.
@@ -27,7 +27,8 @@ import type { SyntaxNode } from "../types.ts";
  * - Variable interpolations: source "$LIB_DIR/utils.sh"
  * - Command substitutions: source "$(get_path)"
  * 
- * @param importNode - Import command syntax node
+ * @param node - Import command syntax node
+ * @param captures - Query captures
  * @param source - Complete source code
  * @returns Imported file path, or undefined if cannot be determined
  * 
@@ -37,8 +38,12 @@ import type { SyntaxNode } from "../types.ts";
  * ```
  * Returns: "./lib/utils.sh"
  */
-export function parseImport(importNode: SyntaxNode, source: string): string | undefined {
-  const text = source.slice(importNode.startIndex, importNode.endIndex);
+export function parseImport(
+  node: SyntaxNode,
+  captures: QueryCaptures,
+  source: string
+): string | undefined {
+  const text = source.slice(node.startIndex, node.endIndex);
   
   // Match: source <path> or . <path>
   // Handles quoted and unquoted paths

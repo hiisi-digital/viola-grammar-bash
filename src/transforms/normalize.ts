@@ -9,8 +9,6 @@
  * @module
  */
 
-import type { SyntaxNode } from "../types.ts";
-
 /**
  * Normalize a Bash function body.
  * 
@@ -24,8 +22,8 @@ import type { SyntaxNode } from "../types.ts";
  * - Change here-doc content
  * - Modify string literals
  * 
- * @param bodyNode - Function body syntax node
- * @param source - Complete source code
+ * @param body - Function body text
+ * @param languageId - Language identifier (e.g., "bash")
  * @returns Normalized body text
  * 
  * @example
@@ -38,9 +36,7 @@ import type { SyntaxNode } from "../types.ts";
  * ```
  * Returns normalized version with consistent whitespace
  */
-export function normalizeBody(bodyNode: SyntaxNode, source: string): string {
-  const body = source.slice(bodyNode.startIndex, bodyNode.endIndex);
-  
+export function normalizeBody(body: string, languageId: string): string {
   // Normalize line endings
   let normalized = body.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
   

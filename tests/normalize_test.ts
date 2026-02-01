@@ -6,27 +6,13 @@
 
 import { assertEquals } from "./assert.ts";
 import { normalizeBody, normalizeHereDoc } from "../src/transforms/normalize.ts";
-import type { SyntaxNode } from "../src/types.ts";
-
-// Helper to create a mock syntax node
-function createMockNode(source: string, start: number, end: number): SyntaxNode {
-  return {
-    type: "compound_statement",
-    startIndex: start,
-    endIndex: end,
-    children: [],
-    namedChildren: [],
-    text: source.slice(start, end),
-  };
-}
 
 Deno.test("normalizeBody - trims whitespace", () => {
   const source = `  
     echo "hello"
   `;
   
-  const node = createMockNode(source, 0, source.length);
-  const normalized = normalizeBody(node, source);
+  const normalized = normalizeBody(source, "bash");
   
   assertEquals(normalized, `echo "hello"`);
 });
@@ -34,8 +20,7 @@ Deno.test("normalizeBody - trims whitespace", () => {
 Deno.test("normalizeBody - normalizes line endings", () => {
   const source = "echo 'hello'\r\necho 'world'\r";
   
-  const node = createMockNode(source, 0, source.length);
-  const normalized = normalizeBody(node, source);
+  const normalized = normalizeBody(source, "bash");
   
   assertEquals(normalized, "echo 'hello'\necho 'world'");
 });
@@ -46,8 +31,7 @@ Deno.test("normalizeBody - preserves content structure", () => {
     echo "line2"
   }`;
   
-  const node = createMockNode(source, 0, source.length);
-  const normalized = normalizeBody(node, source);
+  const normalized = normalizeBody(source, "bash");
   
   assertEquals(normalized.includes("line1"), true);
   assertEquals(normalized.includes("line2"), true);

@@ -6,17 +6,23 @@
 
 import { assertEquals } from "./assert.ts";
 import { parseDocComment } from "../src/transforms/docs.ts";
-import type { SyntaxNode } from "../src/types.ts";
+import type { SyntaxNode } from "../src/viola-types.ts";
 
 // Helper to create a mock syntax node
 function createMockNode(text: string): SyntaxNode {
   return {
     type: "comment",
+    text: text,
+    startPosition: { row: 0, column: 0 },
+    endPosition: { row: 0, column: text.length },
     startIndex: 0,
     endIndex: text.length,
+    parent: null,
     children: [],
     namedChildren: [],
-    text: text,
+    childForFieldName: () => null,
+    hasError: false,
+    isMissing: false,
   };
 }
 

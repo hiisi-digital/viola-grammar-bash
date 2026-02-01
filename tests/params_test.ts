@@ -6,17 +6,23 @@
 
 import { assertEquals, assert } from "./assert.ts";
 import { parseParams } from "../src/transforms/params.ts";
-import type { SyntaxNode } from "../src/types.ts";
+import type { SyntaxNode } from "../src/viola-types.ts";
 
 // Helper to create a mock syntax node
 function createMockNode(source: string, start: number, end: number): SyntaxNode {
   return {
     type: "compound_statement",
+    text: source.slice(start, end),
+    startPosition: { row: 0, column: start },
+    endPosition: { row: 0, column: end },
     startIndex: start,
     endIndex: end,
+    parent: null,
     children: [],
     namedChildren: [],
-    text: source.slice(start, end),
+    childForFieldName: () => null,
+    hasError: false,
+    isMissing: false,
   };
 }
 

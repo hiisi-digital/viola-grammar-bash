@@ -11,7 +11,8 @@
  * @module
  */
 
-import type { SyntaxNode, FunctionParam } from "../types.ts";
+import type { SyntaxNode } from "../viola-types.ts";
+import type { FunctionParam } from "../viola-types.ts";
 
 /**
  * Extract positional parameters from a Bash function body.
@@ -21,7 +22,7 @@ import type { SyntaxNode, FunctionParam } from "../types.ts";
  * - Optional parameters (those with defaults)
  * - Rest parameters ($@ or $*)
  * 
- * @param bodyNode - Function body syntax node
+ * @param paramsNode - Function params or body syntax node (can be undefined for Bash)
  * @param source - Complete source code
  * @returns Array of function parameters
  * 
@@ -35,9 +36,13 @@ import type { SyntaxNode, FunctionParam } from "../types.ts";
  * ```
  * Returns: [{ name: "$1", optional: false }, { name: "$2", optional: true, defaultValue: "Hello" }]
  */
-export function parseParams(bodyNode: SyntaxNode, source: string): FunctionParam[] {
+export function parseParams(paramsNode: SyntaxNode | undefined, source: string): FunctionParam[] {
+  if (!paramsNode) {
+    return [];
+  }
+  
   const params: FunctionParam[] = [];
-  const body = source.slice(bodyNode.startIndex, bodyNode.endIndex);
+  const body = source.slice(paramsNode.startIndex, paramsNode.endIndex);
   
   // Find all positional parameter references
   // Matches: $1, $2, ${1}, ${1:-default}, ${1-default}
