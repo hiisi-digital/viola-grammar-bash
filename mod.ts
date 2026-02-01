@@ -25,8 +25,8 @@ export type {
   ExtractionQueries,
   GrammarTransforms,
   SyntaxNode,
-} from "./src/viola-types.ts";
-export type { FunctionParam } from "./src/viola-types.ts";
+} from "https://raw.githubusercontent.com/hiisi-digital/viola/main/src/grammars/types.ts";
+export type { FunctionParam } from "https://raw.githubusercontent.com/hiisi-digital/viola/main/src/data/types.ts";
 
 // Re-export as default for convenience
 export { bash as default } from "./src/grammar.ts";

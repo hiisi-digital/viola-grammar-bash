@@ -8,7 +8,7 @@
 
 import { assertEquals, assert } from "./assert.ts";
 import { bash } from "../mod.ts";
-import type { SyntaxNode, QueryCaptures } from "../src/viola-types.ts";
+import type { SyntaxNode, QueryCaptures } from "https://raw.githubusercontent.com/hiisi-digital/viola/main/src/grammars/types.ts";
 
 Deno.test("Grammar integration - exports complete definition", () => {
   // Verify meta is complete
@@ -36,7 +36,6 @@ Deno.test("Grammar integration - exports complete definition", () => {
   assert(bash.transforms.parseParams);
   assert(bash.transforms.normalizeBody);
   assert(bash.transforms.isExported);
-  assert(bash.transforms.parseImport);
   assert(bash.transforms.parseDocComment);
 });
 
@@ -94,10 +93,6 @@ Deno.test("Grammar integration - transform functions are callable", () => {
   assert(bash.transforms?.isExported);
   const exported = bash.transforms.isExported(mockNode, mockCaptures);
   assertEquals(typeof exported, "boolean");
-  
-  assert(bash.transforms?.parseImport);
-  const importPath = bash.transforms.parseImport(mockNode, mockCaptures, "source ./test.sh");
-  assertEquals(typeof importPath === "string" || importPath === undefined, true);
   
   assert(bash.transforms?.parseDocComment);
   const comment = bash.transforms.parseDocComment(mockNode, "# test");

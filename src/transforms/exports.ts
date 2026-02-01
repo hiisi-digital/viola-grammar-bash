@@ -9,7 +9,7 @@
  * @module
  */
 
-import type { SyntaxNode, QueryCaptures } from "../viola-types.ts";
+import type { SyntaxNode, QueryCaptures } from "https://raw.githubusercontent.com/hiisi-digital/viola/main/src/grammars/types.ts";
 
 /**
  * Check if a function is exported.
