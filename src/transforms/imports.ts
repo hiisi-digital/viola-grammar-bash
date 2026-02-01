@@ -13,7 +13,7 @@
  * @module
  */
 
-import type { SyntaxNode, QueryCaptures } from "https://raw.githubusercontent.com/hiisi-digital/viola/main/src/grammars/types.ts";
+import type { SyntaxNode, QueryCaptures } from "@hiisi/viola/grammars";
 
 /**
  * Parse an import/source statement to extract the file path.

@@ -17,12 +17,10 @@
     ]
   },
   "imports": {
-    "@hiisi/viola": "https://raw.githubusercontent.com/hiisi-digital/viola/main/mod.ts",
-    "@hiisi/viola/grammars": "https://raw.githubusercontent.com/hiisi-digital/viola/main/src/grammars/mod.ts",
+    "@hiisi/viola": "jsr:@hiisi/viola@^0.1.5",
+    "@hiisi/viola/grammars": "jsr:@hiisi/viola@^0.1.5/grammars",
+    "@hiisi/viola/data": "jsr:@hiisi/viola@^0.1.5/data",
     "@std/assert": "jsr:@std/assert@^1",
-    "@std/fs": "jsr:@std/fs@^1",
-    "@std/path": "jsr:@std/path@^1",
-    "@hiisi/flash-freeze": "jsr:@hiisi/flash-freeze@^0.1",
     "web-tree-sitter": "npm:web-tree-sitter@0.22.6",
     "tree-sitter-bash": "npm:tree-sitter-bash@0.23.3"
   },

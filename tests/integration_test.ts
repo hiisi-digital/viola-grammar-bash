@@ -8,7 +8,7 @@
 
 import { assertEquals, assert } from "./assert.ts";
 import { bash } from "../mod.ts";
-import type { SyntaxNode, QueryCaptures } from "https://raw.githubusercontent.com/hiisi-digital/viola/main/src/grammars/types.ts";
+import type { SyntaxNode, QueryCaptures } from "@hiisi/viola/grammars";
 
 Deno.test("Grammar integration - exports complete definition", () => {
   // Verify meta is complete

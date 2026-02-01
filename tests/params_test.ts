@@ -6,7 +6,7 @@
 
 import { assertEquals, assert } from "./assert.ts";
 import { parseParams } from "../src/transforms/params.ts";
-import type { SyntaxNode } from "https://raw.githubusercontent.com/hiisi-digital/viola/main/src/grammars/types.ts";
+import type { SyntaxNode } from "@hiisi/viola/grammars";
 
 // Helper to create a mock syntax node
 function createMockNode(source: string, start: number, end: number): SyntaxNode {

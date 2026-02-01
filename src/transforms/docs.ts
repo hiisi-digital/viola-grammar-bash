@@ -7,7 +7,7 @@
  * @module
  */
 
-import type { SyntaxNode } from "https://raw.githubusercontent.com/hiisi-digital/viola/main/src/grammars/types.ts";
+import type { SyntaxNode } from "@hiisi/viola/grammars";
 
 /**
  * Parse a documentation comment.

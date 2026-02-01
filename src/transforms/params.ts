@@ -11,8 +11,8 @@
  * @module
  */
 
-import type { SyntaxNode } from "https://raw.githubusercontent.com/hiisi-digital/viola/main/src/grammars/types.ts";
-import type { FunctionParam } from "https://raw.githubusercontent.com/hiisi-digital/viola/main/src/data/types.ts";
+import type { SyntaxNode } from "@hiisi/viola/grammars";
+import type { FunctionParam } from "@hiisi/viola/data";
 
 /**
  * Extract positional parameters from a Bash function body.

@@ -6,7 +6,7 @@
  * @module
  */
 
-import type { GrammarDefinition } from "https://raw.githubusercontent.com/hiisi-digital/viola/main/src/grammars/types.ts";
+import type { GrammarDefinition } from "@hiisi/viola/grammars";
 import { functionsQuery } from "./queries/functions.ts";
 import { stringsQuery } from "./queries/strings.ts";
 import { importsQuery } from "./queries/imports.ts";

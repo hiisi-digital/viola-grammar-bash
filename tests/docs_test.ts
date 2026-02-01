@@ -6,7 +6,7 @@
 
 import { assertEquals } from "./assert.ts";
 import { parseDocComment } from "../src/transforms/docs.ts";
-import type { SyntaxNode } from "https://raw.githubusercontent.com/hiisi-digital/viola/main/src/grammars/types.ts";
+import type { SyntaxNode } from "@hiisi/viola/grammars";
 
 // Helper to create a mock syntax node
 function createMockNode(text: string): SyntaxNode {
