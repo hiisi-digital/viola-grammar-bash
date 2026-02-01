@@ -1,0 +1,35 @@
+{
+  "name": "@hiisi/viola-grammar-bash",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "publish": {
+    "include": [
+      "mod.ts",
+      "src/**/*.ts",
+      "README.md",
+      "LICENSE"
+    ],
+    "exclude": [
+      "src/**/*_test.ts",
+      "tests/**/*"
+    ]
+  },
+  "imports": {
+    "@hiisi/viola": "jsr:@hiisi/viola@^0.1",
+    "@std/assert": "jsr:@std/assert@^1",
+    "tree-sitter-bash": "npm:tree-sitter-bash@0.23.3"
+  },
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true
+  },
+  "tasks": {
+    "check": "deno check mod.ts",
+    "test": "deno test src/ tests/",
+    "test:watch": "deno test --watch src/ tests/"
+  }
+}
