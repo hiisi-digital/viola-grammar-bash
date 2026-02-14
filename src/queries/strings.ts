@@ -25,12 +25,11 @@ export const stringsQuery = `
 (string) @string.value
 
 ; ANSI-C quoted strings ($'...')
-(ansii_c_string) @string.value
+(ansi_c_string) @string.value
 
 ; Here-documents
 (heredoc_body) @string.value
 
-; Here-strings
-(herestring
-  (word) @string.value)
+; Here-strings (herestring_redirect contains a regular string node,
+; which is already matched by the (string) pattern above)
 `;

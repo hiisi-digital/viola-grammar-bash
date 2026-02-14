@@ -1,74 +1,69 @@
 /**
  * Transform function for parsing Bash import/source statements.
- * 
+ *
  * Bash imports files using:
  * - source path/to/file.sh
  * - . path/to/file.sh
- * 
- * Paths can be:
- * - Literal strings
- * - Quoted strings
- * - Variable interpolations (not resolved statically)
- * 
+ *
+ * Unlike JavaScript/TypeScript, bash has no named imports — sourcing
+ * a file brings all its definitions into scope. The import "name"
+ * is set to the file path for consistency with the ImportInfo interface.
+ *
  * @module
  */
 
 import type { SyntaxNode, QueryCaptures } from "@hiisi/viola/grammars";
+import type { ImportInfo } from "@hiisi/viola/data";
 
 /**
- * Parse an import/source statement to extract the file path.
- * 
- * Handles:
- * - Literal paths: source ./utils.sh
- * - Quoted paths: source "./utils.sh"
- * - Single-quoted: source './utils.sh'
- * 
- * Does NOT resolve:
- * - Variable interpolations: source "$LIB_DIR/utils.sh"
- * - Command substitutions: source "$(get_path)"
- * 
+ * Parse an import/source statement into ImportInfo.
+ *
+ * Extracts the file path from the `@import.from` capture and
+ * builds a complete ImportInfo. Bash source imports everything
+ * from the target file, so `isNamespace` is true.
+ *
  * @param node - Import command syntax node
- * @param captures - Query captures
- * @param source - Complete source code
- * @returns Imported file path, or undefined if cannot be determined
- * 
+ * @param captures - Query captures (expects @import.from)
+ * @param _source - Complete source code (unused)
+ * @returns ImportInfo for the source statement
+ *
  * @example
  * ```bash
  * source ./lib/utils.sh
  * ```
- * Returns: "./lib/utils.sh"
+ * Returns: { name: "./lib/utils.sh", from: "./lib/utils.sh", ... }
  */
 export function parseImport(
   node: SyntaxNode,
   captures: QueryCaptures,
-  source: string
-): string | undefined {
-  const text = source.slice(node.startIndex, node.endIndex);
-  
-  // Match: source <path> or . <path>
-  // Handles quoted and unquoted paths
-  const match = text.match(/(?:source|\.)\s+([^\s;]+)/);
-  
-  if (!match) {
-    return undefined;
-  }
-  
-  let path = match[1];
-  
-  if (!path) {
-    return undefined;
-  }
-  
+  _source: string
+): ImportInfo {
+  const fromCapture = captures.get("import.from");
+  const importCapture = captures.get("import");
+
+  const refNode = importCapture?.node ?? fromCapture?.node ?? node;
+
+  let path = fromCapture?.text ?? "";
+
   // Remove quotes if present
-  if ((path.startsWith('"') && path.endsWith('"')) ||
-      (path.startsWith("'") && path.endsWith("'"))) {
+  if (
+    (path.startsWith('"') && path.endsWith('"')) ||
+    (path.startsWith("'") && path.endsWith("'"))
+  ) {
     path = path.slice(1, -1);
   }
-  
-  // Return undefined if path contains variable expansion
-  if (path.includes("$") || path.includes("`")) {
-    return undefined;
-  }
-  
-  return path;
+
+  return {
+    name: path, // For bash, the import "name" is the path
+    location: {
+      file: "", // Overwritten by extractor
+      line: refNode.startPosition.row + 1,
+      column: refNode.startPosition.column + 1,
+      endLine: refNode.endPosition.row + 1,
+      endColumn: refNode.endPosition.column + 1,
+    },
+    from: path,
+    isTypeOnly: false,
+    isNamespace: true, // Bash source imports everything
+  };
 }
