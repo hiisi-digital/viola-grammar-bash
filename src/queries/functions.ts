@@ -18,13 +18,10 @@
  * - @function - Entire function node (for location)
  */
 export const functionsQuery = `
-; Function definitions with keyword and parentheses
+; Function definitions (all syntax variants produce the same AST node).
+; The body is captured as both @function.params and @function.body because
+; bash functions declare params implicitly via $1, $2, $@ in the body.
 (function_definition
   name: (word) @function.name
-  body: (compound_statement) @function.body) @function
-
-; POSIX-style function definitions (name() {})
-(function_definition
-  name: (word) @function.name
-  body: (compound_statement) @function.body) @function
+  body: (compound_statement) @function.params @function.body) @function
 `;

@@ -68,6 +68,7 @@ export const bash: GrammarDefinition = {
     parseParams,
     normalizeBody,
     isExported,
+    parseImport,
     parseDocComment,
   },
 };
