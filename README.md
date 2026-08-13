@@ -1,6 +1,6 @@
 # @hiisi/viola-grammar-bash
 
-Bash and Shell script grammar package for the [Viola](https://github.com/hiisi-digital/viola) convention linter.
+Bash and shell script grammar package for the [Viola](https://github.com/hiisi-digital/viola) convention linter.
 
 ## Overview
 
@@ -15,14 +15,14 @@ deno add jsr:@hiisi/viola-grammar-bash
 ## Usage
 
 ```typescript
-import { viola, grammar, when, report } from "@hiisi/viola";
+import { viola, report, when } from "@hiisi/viola";
 import bash from "@hiisi/viola-grammar-bash";
 
 export default viola()
-  // Register grammar
+  // register the grammar
   .add(bash).as("bash")
   
-  // Your linter rules
+  // your linter rules
   .rule(report.error, when.in("*.sh"));
 ```
 
@@ -30,6 +30,7 @@ export default viola()
 
 - `.sh` - Shell scripts
 - `.bash` - Bash scripts
+- `.zsh` - Zsh scripts
 
 ## Supported Globs
 
@@ -39,6 +40,7 @@ Files without extensions that are commonly shell scripts:
 - `.bash_profile`
 - `.bash_aliases`
 - `.profile`
+- `.zshrc`
 
 ## Extracted Data
 
@@ -66,7 +68,7 @@ function helper {
 Captured data:
 - Name
 - Body (raw and normalized)
-- Positional parameters ($1, $2, $@, etc.) - inferred from usage
+- Positional parameters ($1, $2, $@, etc.), inferred from usage
 - Export status (via `export -f`)
 
 ### Positional Parameters
@@ -89,14 +91,14 @@ Detected patterns:
 - `$1`, `$2`, `$3`, etc. - Positional parameters
 - `$@` - All arguments as separate words
 - `$*` - All arguments as single string
-- `$#` - Argument count
-- `${N:-default}` - Parameters with default values
+- `${N:-default}` and `${N-default}` - Parameters with default values
 
 ### Strings
 
 ```bash
-single='literal string'           # No variable expansion
-double="expanded $variable"       # Variable expansion
+single='literal string'           # no variable expansion
+double="expanded $variable"       # variable expansion
+ansi=$'escaped\nstring'           # escape sequences
 heredoc=$(cat <<EOF
 Multi-line content
 with $variables
@@ -105,8 +107,8 @@ EOF
 ```
 
 Captured data:
-- Value
-- Quote style (single, double, heredoc)
+- Value (quotes stripped)
+- Quote style (single or double; here-document bodies carry no quotes and report as double)
 
 ### Imports (source)
 
@@ -117,20 +119,22 @@ source "${SCRIPT_DIR}/config.sh"
 ```
 
 Captured data:
-- Source path
-- Import method (`source` or `.`)
+- Source path (quotes stripped; also used as the import name)
+
+Both forms are treated identically, and sourcing marks the import as a namespace import since it brings every definition from the target file into scope.
 
 ### Exports
 
 ```bash
-export MY_VAR="value"             # Variable export
-export -f my_function             # Function export
-declare -x EXPORTED_VAR="value"   # Alternative export
+export MY_VAR="value"             # variable export
+export PLAIN_VAR                  # export without assignment
+export -f my_function             # function export
+declare -x EXPORTED_VAR="value"   # alternative export
+typeset -x TYPESET_VAR="value"    # alternative export
 ```
 
 Captured data:
 - Exported name
-- Export kind (variable or function)
 
 ### Comments
 
@@ -145,31 +149,31 @@ function documented() {
 
 ## Here-Document Handling
 
-The grammar normalizes various here-document forms:
+The grammar recognizes the standard here-document forms and extracts their bodies as string values:
 
 ```bash
-# Standard here-doc
+# standard here-doc
 cat <<EOF
 content
 EOF
 
-# Tab-stripped here-doc
+# tab-stripped here-doc
 cat <<-EOF
 	indented content
 EOF
 
-# Literal here-doc (no expansion)
+# literal here-doc (no expansion)
 cat <<'EOF'
 literal $content
 EOF
 ```
 
-All forms are normalized for consistent comparison in linting.
+Function bodies containing here-documents are normalized for comparison by the `normalizeBody` transform, which normalizes line endings and trims surrounding whitespace.
 
 ## Example Configuration
 
 ```typescript
-import { viola, report, when, Impact, grammar } from "@hiisi/viola";
+import { viola, report, when, Impact } from "@hiisi/viola";
 import bash from "@hiisi/viola-grammar-bash";
 import defaultLints from "@hiisi/viola-default-lints";
 
@@ -177,12 +181,12 @@ export default viola()
   .add(bash).as("bash")
   .use(defaultLints)
   
-  // Stricter rules for production scripts
+  // stricter rules for production scripts
   .rule(report.error, when.in("scripts/production/**").and(
-    when.issue.impact(atLeast(Impact.Minor))
+    when.impact.atLeast(Impact.Minor)
   ))
   
-  // Relaxed rules for local dev scripts
+  // relaxed rules for local dev scripts
   .rule(report.hint, when.in("scripts/dev/**"));
 ```
 
@@ -190,21 +194,18 @@ export default viola()
 
 ### No Type Information
 
-Unlike TypeScript, Bash has no type system. Functions are analyzed for:
-- Parameter usage patterns
-- Return values (via `return` or exit codes)
-- Side effects (exported variables, file operations)
+Unlike TypeScript, Bash has no type system. Functions are analyzed for parameter usage patterns (positional parameter references in the body) and export status (via `export -f`).
 
 ### Nested Functions
 
-Bash allows nested function definitions. The grammar correctly scopes parameter detection:
+Bash allows nested function definitions. Each definition is extracted as its own function. Parameter detection scans the full body text of a function, so parameter references inside a nested function also count toward the enclosing function:
 
 ```bash
 function outer() {
-    local x="$1"  # Belongs to outer
+    local x="$1"  # detected for outer
     
     function inner() {
-        local y="$1"  # Belongs to inner
+        local y="$1"  # detected for inner, and also for outer
     }
 }
 ```
@@ -221,7 +222,7 @@ eval "function dynamic_${name}() { echo 'dynamic'; }"
 ## Requirements
 
 - Deno 2.0+
-- `@hiisi/viola` ^0.1
+- `@hiisi/viola` ^0.3
 
 ## Related Packages
 

@@ -1,6 +1,7 @@
 {
   "name": "@hiisi/viola-grammar-bash",
   "version": "0.3.0",
+  "description": "Bash and shell script grammar package for the Viola convention linter.",
   "exports": {
     ".": "./mod.ts"
   },
