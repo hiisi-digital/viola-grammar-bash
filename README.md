@@ -139,13 +139,15 @@ Captured data:
 ### Comments
 
 ```bash
-# This is a documentation comment
+# this is a documentation comment
 # for the function below
 function documented() {
-    # Implementation comment
+    # implementation comment
     echo "Hello"
 }
 ```
+
+The grammar declares a comment query and a `parseDocComment` transform that strips the `#` prefix. Viola does not run either one: its extraction pass produces functions, types, imports, exports and strings only, so no comment data reaches a linter.
 
 ## Here-Document Handling
 
