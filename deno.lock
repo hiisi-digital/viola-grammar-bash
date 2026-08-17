@@ -2,29 +2,56 @@
   "version": "5",
   "specifiers": {
     "jsr:@hiisi/flash-freeze@0.1": "0.1.1",
-    "jsr:@hiisi/viola@~0.1.5": "0.1.5",
+    "jsr:@hiisi/viola@0.3": "0.3.0",
+    "jsr:@std/assert@1": "1.0.19",
+    "jsr:@std/internal@^1.0.12": "1.0.14",
+    "npm:tree-sitter-bash@0.23.3": "0.23.3",
     "npm:web-tree-sitter@0.22.6": "0.22.6"
   },
   "jsr": {
     "@hiisi/flash-freeze@0.1.1": {
       "integrity": "d47a7143f8f0497101b62faf466574577383add61960265d8fc3323f3c77c512"
     },
-    "@hiisi/viola@0.1.5": {
-      "integrity": "bb6a65db7bd36fc8e3f26cdc26cae2550d6c2e7722a1241187a72c40828a7982",
+    "@hiisi/viola@0.3.0": {
+      "integrity": "c15f41be2c3e4054b433caa7ea3f366d5baa10b3dc8af4249b6569296c57a19e",
       "dependencies": [
         "jsr:@hiisi/flash-freeze",
         "npm:web-tree-sitter"
       ]
+    },
+    "@std/assert@1.0.19": {
+      "integrity": "eaada96ee120cb980bc47e040f82814d786fe8162ecc53c91d8df60b8755991e",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/internal@1.0.14": {
+      "integrity": "291516b3d4c35024d6ffbc0a9df5bf4c64116e05b50012cf846710152d2ffdf7"
     }
   },
   "npm": {
+    "node-addon-api@8.9.2": {
+      "integrity": "sha512-VijLXbi3UACN69I0JVXJsX4tjACjNoQDgv2gTF6sx2wWEi8tkSg2eX8p5gSIFi8z2+DL3oHmY6OyKce38SDolg=="
+    },
+    "node-gyp-build@4.8.4": {
+      "integrity": "sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ==",
+      "bin": true
+    },
+    "tree-sitter-bash@0.23.3": {
+      "integrity": "sha512-36cg/GQ2YmIbeiBeqeuh4fBJ6i4kgVouDaqTxqih5ysPag+zHufyIaxMOFeM8CeplwAK/Luj1o5XHqgdAfoCZg==",
+      "dependencies": [
+        "node-addon-api",
+        "node-gyp-build"
+      ],
+      "scripts": true
+    },
     "web-tree-sitter@0.22.6": {
       "integrity": "sha512-hS87TH71Zd6mGAmYCvlgxeGDjqd9GTeqXNqTT+u0Gs51uIozNIaaq/kUAbV/Zf56jb2ZOyG8BxZs2GG9wbLi6Q=="
     }
   },
   "workspace": {
     "dependencies": [
-      "jsr:@hiisi/viola@~0.1.5",
+      "jsr:@hiisi/viola@0.3",
       "jsr:@std/assert@1",
       "npm:tree-sitter-bash@0.23.3",
       "npm:web-tree-sitter@0.22.6"
