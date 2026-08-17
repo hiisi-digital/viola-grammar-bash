@@ -27,9 +27,10 @@ import { parseDocComment } from "./transforms/docs.ts";
  * - Transform functions for Bash-specific processing
  * 
  * Supported files:
- * - .sh (Shell scripts)
- * - .bash (Bash scripts)
- * - .bashrc, .bash_profile, .profile (dotfiles)
+ * - .sh (shell scripts)
+ * - .bash (bash scripts)
+ * - .zsh (zsh scripts)
+ * - .bashrc, .bash_profile, .bash_aliases, .profile, .zshrc (dotfiles)
  * 
  * @example
  * ```ts
