@@ -5,7 +5,7 @@
  * - source path/to/file.sh
  * - . path/to/file.sh
  *
- * Unlike JavaScript/TypeScript, bash has no named imports — sourcing
+ * Unlike JavaScript/TypeScript, bash has no named imports: sourcing
  * a file brings all its definitions into scope. The import "name"
  * is set to the file path for consistency with the ImportInfo interface.
  *
