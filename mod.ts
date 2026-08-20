@@ -1,8 +1,9 @@
 /**
  * @hiisi/viola-grammar-bash
  *
- * Bash and Shell script grammar package for the Viola convention linter.
- * Provides tree-sitter based parsing and extraction for .sh/.bash files.
+ * Bash and shell script grammar package for the Viola convention linter.
+ * Provides tree-sitter based parsing and extraction for .sh, .bash and .zsh
+ * files, plus the shell dotfiles matched by the grammar's globs.
  *
  * @example
  * ```ts

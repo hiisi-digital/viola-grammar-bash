@@ -1,6 +1,7 @@
 {
   "name": "@hiisi/viola-grammar-bash",
   "version": "0.3.0",
+  "description": "Bash and shell script grammar package for the Viola convention linter.",
   "exports": {
     ".": "./mod.ts"
   },
@@ -32,7 +33,7 @@
   },
   "tasks": {
     "check": "deno check mod.ts",
-    "test": "deno test src/ tests/",
-    "test:watch": "deno test --watch src/ tests/"
+    "test": "deno test --allow-env --allow-read --allow-ffi src/ tests/",
+    "test:watch": "deno test --watch --allow-env --allow-read --allow-ffi src/ tests/"
   }
 }
