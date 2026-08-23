@@ -82,8 +82,6 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@hiisi/viola-default-lints@~0.3.1",
-      "jsr:@hiisi/viola-grammar-ts@~0.3.2",
       "jsr:@hiisi/viola@0.3",
       "jsr:@std/assert@1",
       "npm:tree-sitter-bash@0.23.3",
