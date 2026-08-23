@@ -1,6 +1,6 @@
 /**
  * Minimal assertion helpers for testing without external dependencies.
- * 
+ *
  * @module
  */
 

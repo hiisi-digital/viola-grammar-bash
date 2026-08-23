@@ -20,10 +20,10 @@
 
 export { bash } from "./src/grammar.ts";
 export type {
+  ExtractionQueries,
   GrammarDefinition,
   GrammarMeta,
   GrammarSource,
-  ExtractionQueries,
   GrammarTransforms,
   SyntaxNode,
 } from "@hiisi/viola/grammars";

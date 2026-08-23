@@ -2,7 +2,9 @@
 
 ## Overview
 
-`@hiisi/viola-grammar-bash` is a grammar package for the Viola convention linter that enables parsing and extraction of structured data from Bash and shell script files using tree-sitter.
+`@hiisi/viola-grammar-bash` is a grammar package for the Viola convention linter
+that enables parsing and extraction of structured data from Bash and shell
+script files using tree-sitter.
 
 ## Purpose
 
@@ -63,6 +65,7 @@ function greet() {
 ```
 
 The `parseParams` transform must:
+
 - Scan function body for `$1`, `$2`, `$3`, etc.
 - Detect `$@` (all args as separate words)
 - Detect `$*` (all args as single string)
@@ -88,6 +91,7 @@ EOF
 ```
 
 The `normalizeBody` transform must:
+
 - Handle different delimiter styles
 - Normalize `<<-` (tab-stripped) variants
 - Preserve content semantics while normalizing format
@@ -104,6 +108,7 @@ modern=$(command)          # Command substitution (modern)
 ```
 
 String extraction must:
+
 - Distinguish quote styles
 - Track expansion vs literal strings
 - Handle nested quoting
@@ -154,6 +159,7 @@ declare -x VAR="value"     # Alternative export
 ### Capture Naming Convention
 
 Following Viola's standard capture names:
+
 - `@function.name`, `@function.body`
 - `@string.value`
 - `@import.from`
@@ -238,7 +244,7 @@ viola-grammar-bash/
 ## Usage
 
 ```typescript
-import { viola, grammar, when } from "@hiisi/viola";
+import { grammar, viola, when } from "@hiisi/viola";
 import bash from "@hiisi/viola-grammar-bash";
 
 export default viola()
@@ -249,11 +255,13 @@ export default viola()
 ## Supported Files
 
 ### By Extension
+
 - `.sh` - Shell scripts
 - `.bash` - Bash scripts
 - `.zsh` - Zsh scripts (partial support)
 
 ### By Glob Pattern
+
 - `.bashrc`
 - `.bash_profile`
 - `.bash_aliases`

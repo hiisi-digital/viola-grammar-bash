@@ -1,8 +1,8 @@
 /**
  * Bash grammar definition for Viola.
- * 
+ *
  * Assembles queries and transforms into a complete GrammarDefinition.
- * 
+ *
  * @module
  */
 
@@ -20,23 +20,23 @@ import { parseDocComment } from "./transforms/docs.ts";
 
 /**
  * Complete Bash grammar definition.
- * 
+ *
  * Provides:
  * - Tree-sitter configuration for Bash parser
  * - Extraction queries for functions, strings, imports, exports, docs
  * - Transform functions for Bash-specific processing
- * 
+ *
  * Supported files:
  * - .sh (shell scripts)
  * - .bash (bash scripts)
  * - .zsh (zsh scripts)
  * - .bashrc, .bash_profile, .bash_aliases, .profile, .zshrc (dotfiles)
- * 
+ *
  * @example
  * ```ts
  * import { viola } from "@hiisi/viola";
  * import { bash } from "@hiisi/viola-grammar-bash";
- * 
+ *
  * export default viola()
  *   .add(bash).as("bash")
  *   .rule(report.error, when.in("*.sh"));
@@ -50,13 +50,13 @@ export const bash: GrammarDefinition = {
     extensions: [".sh", ".bash", ".zsh"],
     globs: [".bashrc", ".bash_profile", ".bash_aliases", ".profile", ".zshrc"],
   },
-  
+
   grammar: {
     source: "npm",
     package: "tree-sitter-bash",
     wasm: "tree-sitter-bash.wasm",
   },
-  
+
   queries: {
     functions: functionsQuery,
     strings: stringsQuery,
@@ -64,7 +64,7 @@ export const bash: GrammarDefinition = {
     exports: exportsQuery,
     docComments: docsQuery,
   },
-  
+
   transforms: {
     parseParams,
     normalizeBody,

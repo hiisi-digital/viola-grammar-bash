@@ -1,17 +1,17 @@
 /**
  * Tree-sitter queries for extracting Bash function definitions.
- * 
+ *
  * Bash supports multiple function definition syntaxes:
  * - function foo() { } (keyword with parens)
  * - foo() { } (POSIX style)
  * - function foo { } (keyword without parens)
- * 
+ *
  * @module
  */
 
 /**
  * Query for extracting function definitions.
- * 
+ *
  * Captures:
  * - @function.name - Function identifier
  * - @function.body - Function body (compound_statement)

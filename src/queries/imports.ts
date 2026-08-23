@@ -1,18 +1,18 @@
 /**
  * Tree-sitter queries for extracting Bash import/source statements.
- * 
+ *
  * Bash imports files via:
  * - source ./path/to/file.sh
  * - . ./path/to/file.sh
- * 
+ *
  * Both are functionally equivalent.
- * 
+ *
  * @module
  */
 
 /**
  * Query for extracting import statements.
- * 
+ *
  * Captures:
  * - @import.from - Source file path
  * - @import - Entire import command

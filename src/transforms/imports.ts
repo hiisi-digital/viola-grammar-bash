@@ -12,7 +12,7 @@
  * @module
  */
 
-import type { SyntaxNode, QueryCaptures } from "@hiisi/viola/grammars";
+import type { QueryCaptures, SyntaxNode } from "@hiisi/viola/grammars";
 import type { ImportInfo } from "@hiisi/viola/data";
 
 /**
@@ -36,7 +36,7 @@ import type { ImportInfo } from "@hiisi/viola/data";
 export function parseImport(
   node: SyntaxNode,
   captures: QueryCaptures,
-  _source: string
+  _source: string,
 ): ImportInfo {
   const fromCapture = captures.get("import.from");
   const importCapture = captures.get("import");

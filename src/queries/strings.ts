@@ -1,19 +1,19 @@
 /**
  * Tree-sitter queries for extracting Bash string literals.
- * 
+ *
  * Bash has multiple string types:
  * - Single-quoted strings ('literal $var') - No expansion
  * - Double-quoted strings ("expanded $var") - Variable expansion
  * - ANSI-C strings ($'escaped\n') - Escape sequences
  * - Here-documents (<<EOF)
  * - Here-strings (<<<)
- * 
+ *
  * @module
  */
 
 /**
  * Query for extracting string literals.
- * 
+ *
  * Captures:
  * - @string.value - String content
  */
