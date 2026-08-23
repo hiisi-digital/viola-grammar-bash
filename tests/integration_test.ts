@@ -8,7 +8,11 @@
 
 import { assertEquals, assert } from "./assert.ts";
 import { bash } from "../mod.ts";
-import type { SyntaxNode, QueryCaptures } from "@hiisi/viola/grammars";
+import type {
+  QueryCaptures,
+  SyntaxNode,
+  TreeCursor,
+} from "@hiisi/viola/grammars";
 
 Deno.test("Grammar integration - exports complete definition", () => {
   // Verify meta is complete
@@ -58,22 +62,62 @@ Deno.test("Grammar integration - queries are valid S-expressions", () => {
   assertEquals(bash.queries.docComments?.includes("@doc.content"), true);
 });
 
-Deno.test("Grammar integration - transform functions are callable", () => {
-  // Create mock nodes for testing
-  const mockNode: SyntaxNode = {
-    type: "compound_statement",
-    text: "{ echo $1 }",
+/**
+ * A node with no children and no siblings.
+ *
+ * Spelled out in full because `SyntaxNode` is the whole tree-sitter surface
+ * viola declares, and a partial literal stops compiling the moment that surface
+ * grows. It grew, and this was a mock missing five of its properties.
+ */
+/** A cursor sitting on one node, which is as far as a leaf goes. */
+function cursorOver(node: SyntaxNode): TreeCursor {
+  return {
+    nodeType: node.type,
+    nodeText: node.text,
+    nodeIsNamed: true,
+    startPosition: node.startPosition,
+    endPosition: node.endPosition,
+    startIndex: node.startIndex,
+    endIndex: node.endIndex,
+    currentNode: node,
+    currentFieldName: null,
+    reset: () => {},
+    gotoParent: () => false,
+    gotoFirstChild: () => false,
+    gotoFirstChildForIndex: () => false,
+    gotoNextSibling: () => false,
+  };
+}
+
+function leafNode(type: string, text: string): SyntaxNode {
+  const node: SyntaxNode = {
+    type,
+    text,
     startPosition: { row: 0, column: 0 },
-    endPosition: { row: 0, column: 10 },
+    endPosition: { row: 0, column: text.length },
     startIndex: 0,
-    endIndex: 10,
+    endIndex: text.length,
     parent: null,
+    previousNamedSibling: null,
+    nextNamedSibling: null,
     children: [],
     namedChildren: [],
-    childForFieldName: () => null,
+    childCount: 0,
+    namedChildCount: 0,
     hasError: false,
     isMissing: false,
+    childForFieldName: () => null,
+    child: () => null,
+    namedChild: () => null,
+    descendantForIndex: () => node,
+    descendantsOfType: () => [],
+    walk: () => cursorOver(node),
   };
+  return node;
+}
+
+Deno.test("Grammar integration - transform functions are callable", () => {
+  const mockNode = leafNode("compound_statement", "{ echo $1 }");
   
   const mockCaptures: QueryCaptures = {
     get: (name: string) => name === "function.name" ? { node: mockNode, text: "test" } : undefined,
