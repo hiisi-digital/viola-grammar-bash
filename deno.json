@@ -37,7 +37,7 @@
     "check": "deno check mod.ts",
     "test": "deno test --allow-env --allow-read --allow-ffi src/ tests/",
     "test:watch": "deno test --watch --allow-env --allow-read --allow-ffi src/ tests/",
-    "lint": "deno run -A --min-dep-age=0 jsr:@hiisi/viola-cli@^0.3.1 --project . --include src,mod.ts"
+    "lint": "deno run -A --min-dep-age=0 jsr:@hiisi/viola-cli@^0.3.1 --project . --include ."
   },
   "minimumDependencyAge": 0
 }
